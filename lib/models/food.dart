@@ -20,6 +20,6 @@ class Food {
         description: json['customerDescription'],
         eatOutPrice: json['eatOutPrice'],
         eatInPrice: json['eatInPrice'],
-        image: json['imageUri']);
+        image: json['thumbnailUri']);
   }
 }
