@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sausage_roll_app/models/cart.dart';
+import 'package:sausage_roll_app/models/mode.dart';
 import 'package:sausage_roll_app/views/cart_view.dart';
 import 'package:sausage_roll_app/views/product_info_view.dart';
 
@@ -21,6 +22,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       providers: [
         ChangeNotifierProvider(
           create: (context) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Mode(),
         ),
       ],
       child: MaterialApp(

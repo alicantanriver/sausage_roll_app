@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sausage_roll_app/models/cart.dart';
 import 'package:sausage_roll_app/models/food.dart';
+import 'package:sausage_roll_app/models/mode.dart';
 import 'package:sausage_roll_app/services/food_api_service.dart';
 
 class ProductInfoView extends StatefulWidget {
@@ -13,9 +14,20 @@ class ProductInfoView extends StatefulWidget {
 }
 
 class _ProductInfoViewState extends State<ProductInfoView> {
+  bool isIcon1Visible = true;
+  // int mode = 0;
+
+  void _toggleIcon() {
+    setState(() {
+      isIcon1Visible = !isIcon1Visible;
+      // mode = isIcon1Visible ? 0 : 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Cart? cart = Provider.of<Cart>(context, listen: true);
+    Mode? mode = Provider.of<Mode>(context, listen: true);
 
     return Scaffold(
         appBar: AppBar(
@@ -92,8 +104,16 @@ class _ProductInfoViewState extends State<ProductInfoView> {
                                                   '${cart.foods.where((el) => el.name == foods[index].name).length}',
                                                 ),
                                                 GestureDetector(
-                                                    onTap: () => cart
-                                                        .addFood(foods[index]),
+                                                    onTap: () {
+                                                      mode.eatingMode =
+                                                          isIcon1Visible
+                                                              ? 0
+                                                              : 1;
+                                                      cart.setEatingMode(
+                                                          mode.eatingMode);
+                                                      cart.addFood(
+                                                          foods[index]);
+                                                    },
                                                     child: const Icon(
                                                         size: 30, Icons.add)),
                                               ],
@@ -105,6 +125,14 @@ class _ProductInfoViewState extends State<ProductInfoView> {
                                   ),
                                   Column(
                                     children: [
+                                      const Text('choose'),
+                                      GestureDetector(
+                                        onTap: _toggleIcon,
+                                        child: isIcon1Visible
+                                            ? const Icon(
+                                                Icons.takeout_dining_outlined)
+                                            : const Icon(Icons.dining_outlined),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.all(16.0),
                                         child: Image.network(
@@ -115,10 +143,30 @@ class _ProductInfoViewState extends State<ProductInfoView> {
                                         ),
                                       ),
                                       Text(
-                                        '£ ${foods[index].eatOutPrice}',
+                                        isIcon1Visible
+                                            ? '£ ${foods[index].eatInPrice}'
+                                            : '£ ${foods[index].eatOutPrice}',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
+                                      const SizedBox(height: 10),
+                                      const Text('Times'),
+                                      const Text('Available:'),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        '${foods[index].availableTimes[0]}',
+                                        style: TextStyle(
+                                            color: Colors.grey.shade600),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        '${foods[index].availableTimes[1]}',
+                                        style: TextStyle(
+                                            color: Colors.grey.shade600),
+                                      ),
+                                      // Card(
+                                      //   foods[index].availableTimes,
+                                      // )
                                     ],
                                   ),
                                 ],

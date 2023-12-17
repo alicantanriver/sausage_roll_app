@@ -70,20 +70,6 @@ class _CartViewState extends State<CartView> {
               const SizedBox(height: 16.0),
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Delivery Fee:',
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold)),
-                    Text(
-                      cart.convertPriceToFormattedString(
-                          cart.calculateDeliveryFee()),
-                      style: const TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Total Amount:',

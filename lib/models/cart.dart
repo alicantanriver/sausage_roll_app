@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sausage_roll_app/models/food.dart';
+import 'package:sausage_roll_app/models/mode.dart';
 import 'package:sausage_roll_app/models/unique_food.dart';
 
 class Cart extends ChangeNotifier {
   late List<Food> foods = [];
   late double cartTotal;
+  Mode? mode;
+
+  void setEatingMode(int eatingMode) {
+    mode?.eatingMode = eatingMode;
+    notifyListeners();
+  }
 
   void addFood(Food food) {
     foods.add(food);
@@ -38,7 +45,11 @@ class Cart extends ChangeNotifier {
   double calculateTotal() {
     cartTotal = 0;
     for (var element in foods) {
-      cartTotal += element.eatOutPrice;
+      if (mode?.eatingMode == 0) {
+        cartTotal += element.eatInPrice;
+      } else {
+        cartTotal += element.eatOutPrice;
+      }
     }
     return cartTotal;
   }
@@ -48,12 +59,16 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  double calculateDeliveryFee() {
-    return calculateTotal() * 0.05;
-  }
+  // double calculateDeliveryFee() {
+  //   return calculateTotal() * 0.05;
+  // }
+
+  // double calculateGrandTotal() {
+  //   return calculateTotal() + calculateDeliveryFee();
+  // }
 
   double calculateGrandTotal() {
-    return calculateTotal() + calculateDeliveryFee();
+    return calculateTotal();
   }
 
   String convertPriceToFormattedString(double price) {

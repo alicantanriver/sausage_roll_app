@@ -4,14 +4,15 @@ class Food {
   final double eatOutPrice;
   final double eatInPrice;
   final String image;
+  final List availableTimes;
 
   Food({
     required this.name,
-    // required this.slug,
     required this.description,
     required this.eatOutPrice,
     required this.eatInPrice,
     required this.image,
+    required this.availableTimes,
   });
 
   factory Food.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,7 @@ class Food {
         description: json['customerDescription'],
         eatOutPrice: json['eatOutPrice'],
         eatInPrice: json['eatInPrice'],
-        image: json['thumbnailUri']);
+        image: json['thumbnailUri'],
+        availableTimes: json['dayParts']);
   }
 }
