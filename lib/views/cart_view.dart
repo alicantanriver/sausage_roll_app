@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sausage_roll_app/app.dart';
 import 'package:sausage_roll_app/models/cart.dart';
-import 'package:sausage_roll_app/models/unique_food.dart';
+import 'package:sausage_roll_app/models/food.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -16,7 +16,7 @@ class _CartViewState extends State<CartView> {
   @override
   Widget build(BuildContext context) {
     Cart cart = Provider.of(context, listen: true);
-    List<UniqueFood> uniqueFoods = cart.getUniqueFoods();
+    List<(Food food, int count)> uniqueFoods = cart.getUniqueFoods();
 
     // return view that lists cart.foods
     return Scaffold(
@@ -39,19 +39,18 @@ class _CartViewState extends State<CartView> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${uniqueFoods[index].quantity} x '),
-                          Text('${uniqueFoods[index].food.name} ',
+                          Text('${uniqueFoods[index].$2} x '),
+                          Text('${uniqueFoods[index].$1.name} ',
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           Text(cart.convertPriceToFormattedString(
-                              (uniqueFoods[index].quantity *
-                                  uniqueFoods[index].food.eatOutPrice)))
+                              cart.calculateTotal()))
                         ],
                       ),
                       leading: Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: Image.network(
-                          uniqueFoods[index].food.image,
+                          uniqueFoods[index].$1.image,
                           width: 60.0,
                           height: 80.0,
                           fit: BoxFit.cover,
@@ -60,7 +59,7 @@ class _CartViewState extends State<CartView> {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-                          cart.removeFood(uniqueFoods[index].food);
+                          cart.removeFood(uniqueFoods[index].$1);
                         },
                       ),
                     );
@@ -77,7 +76,7 @@ class _CartViewState extends State<CartView> {
                               fontSize: 20.0, fontWeight: FontWeight.bold)),
                       Text(
                           cart.convertPriceToFormattedString(
-                              cart.calculateGrandTotal()),
+                              cart.calculateTotal()),
                           style: const TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold))
                     ])

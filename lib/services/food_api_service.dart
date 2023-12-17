@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:sausage_roll_app/models/food.dart';
 
 class FoodService {
+  // Mocking an api service
   static Future<List<Food>?> getFoods() async {
     String jsonData = await rootBundle.loadString('assets/data.json');
     final List<Food> foods = [];

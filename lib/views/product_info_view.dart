@@ -14,20 +14,9 @@ class ProductInfoView extends StatefulWidget {
 }
 
 class _ProductInfoViewState extends State<ProductInfoView> {
-  bool isIcon1Visible = true;
-  // int mode = 0;
-
-  void _toggleIcon() {
-    setState(() {
-      isIcon1Visible = !isIcon1Visible;
-      // mode = isIcon1Visible ? 0 : 1;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Cart? cart = Provider.of<Cart>(context, listen: true);
-    Mode? mode = Provider.of<Mode>(context, listen: true);
 
     return Scaffold(
         appBar: AppBar(
@@ -105,12 +94,6 @@ class _ProductInfoViewState extends State<ProductInfoView> {
                                                 ),
                                                 GestureDetector(
                                                     onTap: () {
-                                                      mode.eatingMode =
-                                                          isIcon1Visible
-                                                              ? 0
-                                                              : 1;
-                                                      cart.setEatingMode(
-                                                          mode.eatingMode);
                                                       cart.addFood(
                                                           foods[index]);
                                                     },
@@ -124,49 +107,112 @@ class _ProductInfoViewState extends State<ProductInfoView> {
                                     ),
                                   ),
                                   Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Text('choose'),
-                                      GestureDetector(
-                                        onTap: _toggleIcon,
-                                        child: isIcon1Visible
-                                            ? const Icon(
-                                                Icons.takeout_dining_outlined)
-                                            : const Icon(Icons.dining_outlined),
+                                      Text(
+                                        'Please tap',
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'to select',
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'eating mode',
+                                        style: TextStyle(
+                                            color: Colors.redAccent.shade700,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Text(
+                                        cart.mode == Mode.eatIn
+                                            ? "Eat In"
+                                            : "Eat Out",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Align(
+                                        alignment: Alignment.topCenter,
+                                        child: GestureDetector(
+                                          onTap: () => cart.toggleEatingMode(),
+                                          child: cart.mode == Mode.eatOut
+                                              ? const Icon(
+                                                  Icons.takeout_dining_outlined,
+                                                  size: 50)
+                                              : const Icon(
+                                                  Icons.dining_outlined,
+                                                  size: 50),
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(16.0),
-                                        child: Image.network(
-                                          foods[index].image,
-                                          width: 80.0,
-                                          height: 80,
-                                          fit: BoxFit.cover,
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 50),
+                                          alignment: Alignment.center,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.network(
+                                                foods[index].image,
+                                                width: 90.0,
+                                                height: 90.0,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              Text(
+                                                cart.mode == Mode.eatIn
+                                                    ? '£ ${foods[index].eatInPrice}'
+                                                    : '£ ${foods[index].eatOutPrice}',
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const SizedBox(height: 50),
+                                              const Text('Times',
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black)),
+                                              const Text('Available:',
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black)),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                '${foods[index].availableTimes[0]}',
+                                                style: TextStyle(
+                                                    color:
+                                                        Colors.orange.shade600,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                '${foods[index].availableTimes[1]}',
+                                                style: TextStyle(
+                                                    color:
+                                                        Colors.orange.shade600,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      Text(
-                                        isIcon1Visible
-                                            ? '£ ${foods[index].eatInPrice}'
-                                            : '£ ${foods[index].eatOutPrice}',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      const Text('Times'),
-                                      const Text('Available:'),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        '${foods[index].availableTimes[0]}',
-                                        style: TextStyle(
-                                            color: Colors.grey.shade600),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        '${foods[index].availableTimes[1]}',
-                                        style: TextStyle(
-                                            color: Colors.grey.shade600),
-                                      ),
-                                      // Card(
-                                      //   foods[index].availableTimes,
-                                      // )
                                     ],
                                   ),
                                 ],
