@@ -18,7 +18,6 @@ class _CartViewState extends State<CartView> {
     Cart cart = Provider.of(context, listen: true);
     List<(Food food, int count)> uniqueFoods = cart.getUniqueFoods();
 
-    // return view that lists cart.foods
     return Scaffold(
         appBar: AppBar(
           title: Text(

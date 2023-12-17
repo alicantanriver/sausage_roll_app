@@ -63,18 +63,6 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  // double calculateDeliveryFee() {
-  //   return calculateTotal() * 0.05;
-  // }
-
-  // double calculateGrandTotal() {
-  //   return calculateTotal() + calculateDeliveryFee();
-  // }
-
-  // double calculateGrandTotal() {
-  //   return calculateTotal();
-  // }
-
   String convertPriceToFormattedString(double price) {
     return '£ ${(price).toStringAsFixed(2)}';
   }

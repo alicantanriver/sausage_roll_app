@@ -110,7 +110,7 @@ class _ProductInfoViewState extends State<ProductInfoView> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Please tap',
+                                        'Please tap icon',
                                         style: TextStyle(
                                             color: Colors.redAccent.shade700,
                                             fontWeight: FontWeight.bold),
